@@ -15,49 +15,58 @@
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12>
-                <v-text-field 
-                  v-model="form.title"
-                  label="Task Title" 
-                  required
-                >
-                </v-text-field>
-              </v-flex>
-              <v-flex xs12>
-               <v-text-field
-                  name="title"
-                  v-model="form.description"
-                  label="Description"
-                  multi-line
-                  required
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12>
-                <v-text-field 
-                  label="Point" 
-                  required
-                  v-model="form.point"
-                >
-                </v-text-field>
-              </v-flex>
-              <v-flex xs12>
-                <v-text-field 
-                  v-model="form.assigned"
-                  label="Assigned To" 
-                  required
-                >
-                </v-text-field>
-              </v-flex>
-            </v-layout>
+            <v-form v-model="valid" ref="form" lazy-validation>
+              <v-layout wrap>
+                <v-flex xs12>
+                  <v-text-field 
+                    v-model="form.title"
+                    label="Task Title"
+                    :rules="titleRules"
+                    required
+                  >
+                  </v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                <v-text-field
+                    name="title"
+                    v-model="form.description"
+                    label="Description"
+                    :rules="descriptionRules"
+                    multi-line
+                    required
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field 
+                    label="Point" 
+                    required
+                    v-model="form.point"
+                    :rules="pointRules"
+                    placeholder="0 - 100"
+                    suffix="%"
+                    :mask="mask"
+                  >
+                  </v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field 
+                    v-model="form.assigned"
+                    label="Assigned To" 
+                    required
+                    :rules="assignedRules"
+                  >
+                  </v-text-field>
+                </v-flex>
+              </v-layout>
+            </v-form>
           </v-container>
           <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="orange" dark @click="clear()">Close</v-btn>
+          <v-btn color="orange" dark @click="clear()">Clear</v-btn>
           <v-btn color="red" dark @click.native="dialog = false">Close</v-btn>
-          <v-btn color="blue" dark @click="addTask(form)">Save</v-btn>
+          <v-btn color="blue" dark :disabled="!valid" @click="addTask(form)">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -68,6 +77,7 @@
 export default {
   data () {
     return {
+      valid: true,
       dialog: false,
       form: {
         title: '',
@@ -75,7 +85,15 @@ export default {
         point: 0,
         assigned: '',
         status: 0
-      }
+      },
+      titleRules: [(v) => !!v || 'Title is required'],
+      descriptionRules: [(v) => !!v || 'Description is required'],
+      pointRules: [
+        (v) => !!v || 'Point is required',
+        (v) => v <= 100 || 'Point mush be 0 - 100'
+      ],
+      assignedRules: [(v) => !!v || 'Assigned is required'],
+      mask: '###'
     }
   },
   created () {
@@ -85,9 +103,10 @@ export default {
       this.dialog = true
     },
     addTask (data) {
-      console.log(data)
-      this.$store.dispatch('addNewTask', data)
-      this.dialog = false
+      if (this.$refs.form.validate()) {
+        this.$store.dispatch('addNewTask', data)
+        this.dialog = false
+      }
     },
     clear () {
       this.$refs.form.reset()

@@ -49,7 +49,7 @@ export const store = new Vuex.Store({
     removeTask ({ commit }, payload) {
       console.log('delete', payload)
       // eslint-disable-next-line 
-      tasks.child(payload).remove
+      tasks.child(payload).remove()
     },
     editTask ({ commit }, payload) {
       console.log('update', payload)

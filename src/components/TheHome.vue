@@ -17,9 +17,9 @@
                     <p><b>Assigned To :</b> {{task.assigned}}</p>
                   </v-card-text>
                   <v-card-actions class="text-xs-center">
-                    <v-btn color="orange" @click="updateTaskStatus(index, 1)">To do</v-btn>
+                    <v-btn color="red" @click="updateTaskStatus(index, 1)">To do</v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn color="red" icon @click.prevent="deleteTask(index)"><v-icon>delete</v-icon></v-btn>
+                    <v-btn color="yellow" light icon @click.prevent="deleteTask(index)"><v-icon>delete</v-icon></v-btn>
                   </v-card-actions>
                 </v-card>
               </v-expansion-panel-content>
@@ -32,21 +32,86 @@
       <v-card dark color="red">
         <v-card-text class="px-3 text-xs-center"><h1><b>To Do</b></h1></v-card-text>
         <v-divider></v-divider>
-        <v-card-text></v-card-text>
+        <v-card light>
+          <v-card-text>
+            <v-expansion-panel popout>
+              <v-expansion-panel-content v-for="(task, index) in tasks" :key="index" v-if="task.status === 1">
+                <div slot="header"><h3><b>{{task.title}}</b></h3></div>
+                <v-card>
+                  <v-card-text>
+                    <p><b>Description :</b></p>
+                    <p id="description"> {{task.description}}</p>
+                    <p><b>Point :</b> {{task.point}}%</p>
+                    <p><b>Assigned To :</b> {{task.assigned}}</p>
+                  </v-card-text>
+                  <v-card-actions class="text-xs-center">
+                    <v-btn color="blue" @click="updateTaskStatus(index, 0)">Back Log</v-btn>
+                    <v-btn color="purple" @click="updateTaskStatus(index, 2)">Doing</v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn color="yellow" light icon @click.prevent="deleteTask(index)"><v-icon>delete</v-icon></v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-card-text>
+        </v-card>
       </v-card>
     </v-flex>
     <v-flex md3 xs12>
       <v-card dark color="purple">
         <v-card-text class="px-3 text-xs-center"><h1><b>Doing</b></h1></v-card-text>
         <v-divider></v-divider>
-        <v-card-text></v-card-text>
+        <v-card light>
+          <v-card-text>
+            <v-expansion-panel popout>
+              <v-expansion-panel-content v-for="(task, index) in tasks" :key="index" v-if="task.status === 2">
+                <div slot="header"><h3><b>{{task.title}}</b></h3></div>
+                <v-card>
+                  <v-card-text>
+                    <p><b>Description :</b></p>
+                    <p id="description"> {{task.description}}</p>
+                    <p><b>Point :</b> {{task.point}}%</p>
+                    <p><b>Assigned To :</b> {{task.assigned}}</p>
+                  </v-card-text>
+                  <v-card-actions class="text-xs-center">
+                    <v-btn color="red" @click="updateTaskStatus(index, 1)">To Do</v-btn>
+                    <v-btn color="orange" @click="updateTaskStatus(index, 3)">Done</v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn color="yellow" light icon @click.prevent="deleteTask(index)"><v-icon>delete</v-icon></v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-card-text>
+        </v-card>
       </v-card>
     </v-flex>
     <v-flex md3 xs12>
       <v-card dark color="orange">
         <v-card-text class="px-3 text-xs-center"><h1><b>Done</b></h1></v-card-text>
         <v-divider></v-divider>
-        <v-card-text></v-card-text>
+        <v-card light>
+          <v-card-text>
+            <v-expansion-panel popout>
+              <v-expansion-panel-content v-for="(task, index) in tasks" :key="index" v-if="task.status === 3">
+                <div slot="header"><h3><b>{{task.title}}</b></h3></div>
+                <v-card>
+                  <v-card-text>
+                    <p><b>Description :</b></p>
+                    <p id="description"> {{task.description}}</p>
+                    <p><b>Point :</b> {{task.point}}%</p>
+                    <p><b>Assigned To :</b> {{task.assigned}}</p>
+                  </v-card-text>
+                  <v-card-actions class="text-xs-center">
+                    <v-btn color="purple" @click="updateTaskStatus(index, 2)">Doing</v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn color="yellow" light icon @click.prevent="deleteTask(index)"><v-icon>delete</v-icon></v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-card-text>
+        </v-card>
       </v-card>
     </v-flex>
   </v-layout>
