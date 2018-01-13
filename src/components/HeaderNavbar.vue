@@ -2,8 +2,7 @@
   <v-toolbar fixed app id="dataMenu">
     <v-toolbar-title id="title" color="primary">My Kanban</v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-toolbar-side-icon class="hidden-md-and-up"></v-toolbar-side-icon>
-    <v-toolbar-items class="hidden-sm-and-down" id="nav-list">
+    <v-toolbar-items id="nav-list">
       <v-btn flat @click="dialogAdd">
         <v-icon>add_circle_outline</v-icon>&nbsp; Tasks
       </v-btn>
