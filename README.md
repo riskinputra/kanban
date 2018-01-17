@@ -1,6 +1,6 @@
 
 # Demo : 
-> [kanban.riskinputra.com](kanban.riskinputra.com)
+> [kanban.riskinputra.com](http://kanban.riskinputra.com/)
 
 # kanban
 
